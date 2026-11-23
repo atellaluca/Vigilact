@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atellaluca.github.io/vigilact/schemas/expected-event-vectors.schema.json",
+  "title": "Vigilact experimental expected-event conformance vectors",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "base_time",
+    "subject",
+    "event_type",
+    "contract_owner",
+    "cases"
+  ],
+  "properties": {
+    "schema": {
+      "const": "vigilact.expected-event.vectors/0.1"
+    },
+    "base_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract_owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "offset_seconds",
+        "id",
+        "type",
+        "subject"
+      ],
+      "properties": {
+        "offset_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "time_offset_seconds": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "deadline_offset_seconds",
+        "events",
+        "evaluate_at_seconds",
+        "expected"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deadline_offset_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "evaluate_at_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "outcome",
+            "receipts",
+            "emissions"
+          ],
+          "properties": {
+            "outcome": {
+              "enum": [
+                "PENDING",
+                "SATISFIED",
+                "NOT_OBSERVED"
+              ]
+            },
+            "receipts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "emissions": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "satisfied",
+                  "not_observed"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

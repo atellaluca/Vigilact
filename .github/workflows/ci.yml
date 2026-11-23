@@ -1,0 +1,194 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests / Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry 2.5.2
+        run: pipx install poetry==2.5.2
+      - name: Check committed dependency lock
+        run: poetry check --lock
+      - name: Recreate environment from lock
+        run: poetry sync --all-groups --all-extras
+      - name: Run automated tests and enforce coverage
+        run: poetry run python -m pytest -q --cov=vigilact --cov-report=term-missing --cov-fail-under=90
+      - name: Run deterministic demonstration
+        run: poetry run python examples/quickstart.py
+      # Schema-generator versions are pinned in pyproject.toml and poetry.lock.
+      - name: Check generated protocol artifacts are committed
+        if: matrix.python-version == '3.13'
+        run: |
+          poetry run python scripts/export_specs.py
+          git diff --exit-code -- api/ schemas/
+      - name: Syntax validation
+        run: poetry run python -m compileall -q src scripts examples
+
+
+  semantic-interoperability:
+    name: Experimental semantics / Python vs independent Go
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.24'
+          cache: false
+      - name: Install Poetry 2.5.2
+        run: pipx install poetry==2.5.2
+      - name: Check lock and sync
+        run: |
+          poetry check --lock
+          poetry sync --all-groups --all-extras
+      - name: Validate vectors against the real Python service
+        run: poetry run python scripts/expected_event_vectors.py --check
+      - name: Validate vectors against the independent Go evaluator
+        run: go run ./implementations/go-vector-evaluator/main.go --check
+      - name: Compare cross-language traces
+        run: |
+          poetry run python scripts/expected_event_vectors.py > "$RUNNER_TEMP/python-trace.json"
+          go run ./implementations/go-vector-evaluator/main.go > "$RUNNER_TEMP/go-trace.json"
+          poetry run python -c 'import json,os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"]); assert json.loads((p/"python-trace.json").read_text()) == json.loads((p/"go-trace.json").read_text()); print("Cross-language traces identical")'
+
+  independent-core-servers:
+    name: Two independent HTTP observers / same Core profile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.24'
+          cache: false
+      - name: Install Poetry 2.5.2
+        run: pipx install poetry==2.5.2
+      - name: Check lock and sync
+        run: |
+          poetry check --lock
+          poetry sync --all-groups --all-extras
+      - name: Go race and static checks
+        working-directory: implementations/go-observer
+        run: |
+          go vet ./...
+          go test -race ./...
+      - name: Execute identical HTTP and restart checks on both observers
+        run: >-
+          poetry run python scripts/test_observers.py --load 25 --differential-cases 12
+          --seed 20261123 --report "$RUNNER_TEMP/vigilact-core-evidence.json"
+      - name: Render public, bounded verification summary
+        run: >-
+          poetry run python scripts/render_evidence.py "$RUNNER_TEMP/vigilact-core-evidence.json"
+          --output "$RUNNER_TEMP/vigilact-CORE_PROOF.md"
+      - name: Publish Core evidence artifact for inspection
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: vigilact-core-evidence
+          path: |
+            ${{ runner.temp }}/vigilact-core-evidence.json
+            ${{ runner.temp }}/vigilact-CORE_PROOF.md
+          if-no-files-found: error
+          retention-days: 14
+
+  lint-and-build:
+    name: Lint and package validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13'
+      - name: Install Poetry 2.5.2
+        run: pipx install poetry==2.5.2
+      - name: Check lock and sync
+        run: |
+          poetry check --lock
+          poetry sync --all-groups --all-extras
+      - name: Ruff static analysis
+        run: poetry run ruff check .
+      - name: Build source and wheel archives
+        run: poetry build
+      - name: Validate distribution metadata
+        run: poetry run twine check dist/*
+      - name: Upload build artifacts (not published)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: vigilact-python-dist
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
+
+  http-conformance-smoke:
+    name: External HTTP protocol smoke checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VIGILACT_CREDENTIALS_JSON: '{"ci-agent":{"role":"agent","key":"ci-ephemeral-agent-test-key-123456789"},"ci-operator":{"role":"operator","key":"ci-ephemeral-ops-test-key-123456789"}}'
+      VIGILACT_CONFORMANCE_AGENT_KEY: 'ci-ephemeral-agent-test-key-123456789'
+      VIGILACT_CONFORMANCE_OPERATOR_KEY: 'ci-ephemeral-ops-test-key-123456789'
+      VIGILACT_DB_PATH: '${{ runner.temp }}/vigilact-conformance.sqlite3'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13'
+      - name: Install Poetry 2.5.2
+        run: pipx install poetry==2.5.2
+      - name: Check lock and sync
+        run: |
+          poetry check --lock
+          poetry sync --all-groups --all-extras
+      - name: Start local reference observer
+        run: |
+          poetry run uvicorn 'vigilact.server:create_app' --factory --host 127.0.0.1 --port 18948 > /tmp/vigilact-smoke.log 2>&1 &
+          for i in {1..50}; do
+            if curl -fsS http://127.0.0.1:18948/healthz >/dev/null; then exit 0; fi
+            sleep 0.2
+          done
+          cat /tmp/vigilact-smoke.log
+          exit 1
+      - name: Test observer through the documented HTTP API
+        run: |
+          poetry run python scripts/conformance_http.py \
+            --url http://127.0.0.1:18948 \
+            --agent ci-agent --operator ci-operator

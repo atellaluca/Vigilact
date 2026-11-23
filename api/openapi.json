@@ -1,0 +1,1463 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Vigilact Reference Server",
+    "version": "0.4.0a2"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Healthz",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Readyz",
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/info": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Info",
+        "operationId": "info_v1_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/contracts": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Propose Contract",
+        "operationId": "propose_contract_v1_contracts_post",
+        "parameters": [
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractProposal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/contracts/{contract_id}": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Get Contract",
+        "operationId": "get_contract_v1_contracts__contract_id__get",
+        "parameters": [
+          {
+            "name": "contract_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Contract Id"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/events": {
+      "post": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Publish Event",
+        "operationId": "publish_event_v1_events_post",
+        "parameters": [
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloudEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventReceipt"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/outbox": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "List Outbox",
+        "operationId": "list_outbox_v1_outbox_get",
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "After"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutboxPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/me/capabilities": {
+      "put": {
+        "tags": [
+          "capabilities"
+        ],
+        "summary": "Put Capabilities",
+        "operationId": "put_capabilities_v1_agents_me_capabilities_put",
+        "parameters": [
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CapabilityManifest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/{agent}/capabilities": {
+      "get": {
+        "tags": [
+          "capabilities"
+        ],
+        "summary": "Get Capabilities",
+        "operationId": "get_capabilities_v1_agents__agent__capabilities_get",
+        "parameters": [
+          {
+            "name": "agent",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/commands": {
+      "post": {
+        "tags": [
+          "commands"
+        ],
+        "summary": "Queue Command",
+        "operationId": "queue_command_v1_commands_post",
+        "parameters": [
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/commands/{command_id}": {
+      "get": {
+        "tags": [
+          "commands"
+        ],
+        "summary": "Get Command",
+        "operationId": "get_command_v1_commands__command_id__get",
+        "parameters": [
+          {
+            "name": "command_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Command Id"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/me/commands": {
+      "get": {
+        "tags": [
+          "commands"
+        ],
+        "summary": "Commands For Agent",
+        "operationId": "commands_for_agent_v1_agents_me_commands_get",
+        "parameters": [
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/me/commands/{command_id}/claim": {
+      "post": {
+        "tags": [
+          "commands"
+        ],
+        "summary": "Claim Command",
+        "operationId": "claim_command_v1_agents_me_commands__command_id__claim_post",
+        "parameters": [
+          {
+            "name": "command_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Command Id"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/me/commands/{command_id}/result": {
+      "post": {
+        "tags": [
+          "commands"
+        ],
+        "summary": "Resolve Command",
+        "operationId": "resolve_command_v1_agents_me_commands__command_id__result_post",
+        "parameters": [
+          {
+            "name": "command_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Command Id"
+            }
+          },
+          {
+            "name": "x-vigilact-principal",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Principal"
+            }
+          },
+          {
+            "name": "x-vigilact-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Vigilact-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandResult"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Capability": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{0,95}$",
+            "title": "Name"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "query",
+              "command"
+            ],
+            "title": "Mode"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Description",
+            "default": ""
+          },
+          "invocable": {
+            "type": "boolean",
+            "title": "Invocable",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "mode"
+        ],
+        "title": "Capability"
+      },
+      "CapabilityManifest": {
+        "properties": {
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/Capability"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Capabilities"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capabilities"
+        ],
+        "title": "CapabilityManifest"
+      },
+      "CapabilityView": {
+        "properties": {
+          "agent": {
+            "type": "string",
+            "title": "Agent"
+          },
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/Capability"
+            },
+            "type": "array",
+            "title": "Capabilities"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "agent",
+          "capabilities"
+        ],
+        "title": "CapabilityView"
+      },
+      "CloudEvent": {
+        "properties": {
+          "specversion": {
+            "type": "string",
+            "const": "1.0",
+            "title": "Specversion"
+          },
+          "id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Source"
+          },
+          "type": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Type"
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Subject"
+          },
+          "time": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time"
+          },
+          "datacontenttype": {
+            "type": "string",
+            "const": "application/json",
+            "title": "Datacontenttype",
+            "default": "application/json"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "specversion",
+          "id",
+          "source",
+          "type",
+          "subject"
+        ],
+        "title": "CloudEvent",
+        "description": "Supported CloudEvents JSON subset; other extensions are not implemented."
+      },
+      "CommandList": {
+        "properties": {
+          "commands": {
+            "items": {
+              "$ref": "#/components/schemas/CommandView"
+            },
+            "type": "array",
+            "title": "Commands"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "commands"
+        ],
+        "title": "CommandList"
+      },
+      "CommandRequest": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$",
+            "title": "Request Id"
+          },
+          "target_agent": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+            "title": "Target Agent"
+          },
+          "capability": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{0,95}$",
+            "title": "Capability"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments"
+          },
+          "ttl_seconds": {
+            "type": "integer",
+            "maximum": 86400.0,
+            "minimum": 1.0,
+            "title": "Ttl Seconds",
+            "default": 300
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "request_id",
+          "target_agent",
+          "capability"
+        ],
+        "title": "CommandRequest"
+      },
+      "CommandResult": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "succeeded",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "output": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Output"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "CommandResult"
+      },
+      "CommandView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "target_agent": {
+            "type": "string",
+            "title": "Target Agent"
+          },
+          "capability": {
+            "type": "string",
+            "title": "Capability"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "CLAIMED",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED",
+              "EXPIRED",
+              "UNKNOWN"
+            ],
+            "title": "Status"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "lease_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lease Expires At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "request_id",
+          "target_agent",
+          "capability",
+          "arguments",
+          "status",
+          "result",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CommandView"
+      },
+      "ContractProposal": {
+        "properties": {
+          "client_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$",
+            "title": "Client Ref"
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Subject"
+          },
+          "observation": {
+            "$ref": "#/components/schemas/ExpectedEvent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_ref",
+          "subject",
+          "observation"
+        ],
+        "title": "ContractProposal"
+      },
+      "ContractView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "owner": {
+            "type": "string",
+            "title": "Owner"
+          },
+          "client_ref": {
+            "type": "string",
+            "title": "Client Ref"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "observation": {
+            "$ref": "#/components/schemas/ExpectedEvent"
+          },
+          "state": {
+            "type": "string",
+            "const": "ACTIVE",
+            "title": "State"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SATISFIED",
+              "NOT_OBSERVED"
+            ],
+            "title": "Outcome"
+          },
+          "accepted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Accepted At"
+          },
+          "resolved_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "owner",
+          "client_ref",
+          "subject",
+          "observation",
+          "state",
+          "outcome",
+          "accepted_at",
+          "resolved_at"
+        ],
+        "title": "ContractView"
+      },
+      "EventReceipt": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "duplicate"
+            ],
+            "title": "Status"
+          },
+          "satisfied_contracts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Satisfied Contracts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "satisfied_contracts"
+        ],
+        "title": "EventReceipt"
+      },
+      "ExpectedEvent": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "expected_event",
+            "title": "Kind",
+            "default": "expected_event"
+          },
+          "event_type": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Event Type"
+          },
+          "deadline_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Deadline At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_type",
+          "deadline_at"
+        ],
+        "title": "ExpectedEvent"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "OutboxEntry": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          },
+          "event": {
+            "$ref": "#/components/schemas/CloudEvent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seq",
+          "event"
+        ],
+        "title": "OutboxEntry"
+      },
+      "OutboxPage": {
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/OutboxEntry"
+            },
+            "type": "array",
+            "title": "Entries"
+          },
+          "next_cursor": {
+            "type": "integer",
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "entries",
+          "next_cursor"
+        ],
+        "title": "OutboxPage"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

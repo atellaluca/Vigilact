@@ -1,0 +1,216 @@
+{
+  "profile": "core.expected_event/0.1",
+  "status": "PASS",
+  "implementations": [
+    {
+      "implementation": "python",
+      "passed": 22,
+      "checks": [
+        {
+          "test": "protocol discovery",
+          "passed": true
+        },
+        {
+          "test": "anonymous proposal denied",
+          "passed": true
+        },
+        {
+          "test": "epoch timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "excess precision rejected",
+          "passed": true
+        },
+        {
+          "test": "naive timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "unknown contract field rejected",
+          "passed": true
+        },
+        {
+          "test": "contract accepted",
+          "passed": true
+        },
+        {
+          "test": "idempotent contract reference",
+          "passed": true
+        },
+        {
+          "test": "conflicting contract rejected",
+          "passed": true
+        },
+        {
+          "test": "null data object rejected",
+          "passed": true
+        },
+        {
+          "test": "invalid evidence timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "forged event source rejected",
+          "passed": true
+        },
+        {
+          "test": "evidence satisfies contract",
+          "passed": true
+        },
+        {
+          "test": "event deduplication",
+          "passed": true
+        },
+        {
+          "test": "conflicting event ID rejected",
+          "passed": true
+        },
+        {
+          "test": "contract outcome persisted",
+          "passed": true
+        },
+        {
+          "test": "invalid cursor rejected",
+          "passed": true
+        },
+        {
+          "test": "evaluation event in outbox",
+          "passed": true
+        },
+        {
+          "test": "restart recovers overdue contract",
+          "passed": true
+        },
+        {
+          "test": "restart produces one durable missing-event outcome",
+          "passed": true
+        },
+        {
+          "test": "late evidence does not satisfy resolved contract",
+          "passed": true
+        },
+        {
+          "test": "late evidence does not duplicate evaluation",
+          "passed": true
+        }
+      ],
+      "load_smoke": {
+        "status": "PASS",
+        "transactions": 25,
+        "workers": 4,
+        "elapsed_seconds": 0.352,
+        "transactions_per_second_observed": 70.95,
+        "proposal_p95_ms": 46.19,
+        "event_p95_ms": 40.94,
+        "outbox_evaluations": 25,
+        "scope": "bounded local synthetic test; no SLA or production claims"
+      }
+    },
+    {
+      "implementation": "go",
+      "passed": 22,
+      "checks": [
+        {
+          "test": "protocol discovery",
+          "passed": true
+        },
+        {
+          "test": "anonymous proposal denied",
+          "passed": true
+        },
+        {
+          "test": "epoch timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "excess precision rejected",
+          "passed": true
+        },
+        {
+          "test": "naive timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "unknown contract field rejected",
+          "passed": true
+        },
+        {
+          "test": "contract accepted",
+          "passed": true
+        },
+        {
+          "test": "idempotent contract reference",
+          "passed": true
+        },
+        {
+          "test": "conflicting contract rejected",
+          "passed": true
+        },
+        {
+          "test": "null data object rejected",
+          "passed": true
+        },
+        {
+          "test": "invalid evidence timestamp rejected",
+          "passed": true
+        },
+        {
+          "test": "forged event source rejected",
+          "passed": true
+        },
+        {
+          "test": "evidence satisfies contract",
+          "passed": true
+        },
+        {
+          "test": "event deduplication",
+          "passed": true
+        },
+        {
+          "test": "conflicting event ID rejected",
+          "passed": true
+        },
+        {
+          "test": "contract outcome persisted",
+          "passed": true
+        },
+        {
+          "test": "invalid cursor rejected",
+          "passed": true
+        },
+        {
+          "test": "evaluation event in outbox",
+          "passed": true
+        },
+        {
+          "test": "restart recovers overdue contract",
+          "passed": true
+        },
+        {
+          "test": "restart produces one durable missing-event outcome",
+          "passed": true
+        },
+        {
+          "test": "late evidence does not satisfy resolved contract",
+          "passed": true
+        },
+        {
+          "test": "late evidence does not duplicate evaluation",
+          "passed": true
+        }
+      ],
+      "load_smoke": {
+        "status": "PASS",
+        "transactions": 25,
+        "workers": 4,
+        "elapsed_seconds": 0.224,
+        "transactions_per_second_observed": 111.73,
+        "proposal_p95_ms": 23.04,
+        "event_p95_ms": 15.44,
+        "outbox_evaluations": 25,
+        "scope": "bounded local synthetic test; no SLA or production claims"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Vigilact logo</title>
+  <desc id="desc">A dark navy V with a teal observation signal and a circular evidence point.</desc>
+  <path d="M26 96h46l56 101 56-101h46l-78 137h-48z" fill="#132e49"/>
+  <path d="M51 78Q128 0 205 78" fill="none" stroke="#08b6a4" stroke-width="21" stroke-linecap="round"/>
+  <path d="M91 109Q128 71 165 109" fill="none" stroke="#08b6a4" stroke-width="19" stroke-linecap="round"/>
+  <circle cx="128" cy="134" r="19" fill="#08b6a4"/>
+</svg>

@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "ExpectedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "expected_event",
+          "default": "expected_event",
+          "title": "Kind",
+          "type": "string"
+        },
+        "event_type": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Event Type",
+          "type": "string"
+        },
+        "deadline_at": {
+          "format": "date-time",
+          "title": "Deadline At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_type",
+        "deadline_at"
+      ],
+      "title": "ExpectedEvent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "owner": {
+      "title": "Owner",
+      "type": "string"
+    },
+    "client_ref": {
+      "title": "Client Ref",
+      "type": "string"
+    },
+    "subject": {
+      "title": "Subject",
+      "type": "string"
+    },
+    "observation": {
+      "$ref": "#/$defs/ExpectedEvent"
+    },
+    "state": {
+      "const": "ACTIVE",
+      "title": "State",
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "PENDING",
+        "SATISFIED",
+        "NOT_OBSERVED"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "accepted_at": {
+      "format": "date-time",
+      "title": "Accepted At",
+      "type": "string"
+    },
+    "resolved_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Resolved At"
+    }
+  },
+  "required": [
+    "id",
+    "owner",
+    "client_ref",
+    "subject",
+    "observation",
+    "state",
+    "outcome",
+    "accepted_at",
+    "resolved_at"
+  ],
+  "title": "ContractView",
+  "type": "object"
+}

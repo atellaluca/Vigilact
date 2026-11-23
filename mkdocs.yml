@@ -1,0 +1,70 @@
+site_name: Vigilact Documentation
+site_description: Open protocol experiment for negotiated operational contracts and observable commitments.
+site_url: https://vigilact.atellaluca.com/
+repo_url: https://github.com/atellaluca/vigilact
+repo_name: atellaluca/vigilact
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+copyright: Copyright © 2026 Luca Atella · Apache-2.0
+strict: true
+use_directory_urls: true
+theme:
+  name: mkdocs
+  locale: en
+  navigation_depth: 3
+  highlightjs: true
+  hljs_languages: [python, javascript, json, bash, yaml]
+plugins:
+  - search
+extra_css:
+  - assets/styles.css
+nav:
+  - Overview: index.md
+  - Getting started:
+      - Install and run: getting-started/install.md
+      - Five-minute HTTP demo: getting-started/five-minute-demo.md
+      - Your first contract: getting-started/first-contract.md
+  - Concepts:
+      - Mental model: concepts/mental-model.md
+      - Architecture: concepts/architecture.md
+      - Contracts and observations: concepts/contracts.md
+      - Evaluation semantics: concepts/evaluation-semantics.md
+      - Core protocol profile: concepts/core-profile.md
+      - Failure semantics: concepts/failure-semantics.md
+      - Wire timestamps: concepts/wire-timestamps.md
+      - Identity and trust: concepts/trust.md
+  - Protocol:
+      - HTTP API: protocol/http-api.md
+      - Evidence and evaluations: protocol/events.md
+      - Capabilities: protocol/capabilities.md
+      - Commands: protocol/commands.md
+      - Safe command lifecycle: protocol/command-lifecycle.md
+  - Guides:
+      - Python SDK: guides/python.md
+      - JavaScript client: guides/javascript.md
+      - Independent Go observer: guides/go-observer.md
+      - Backup integration: guides/backup-integration.md
+      - Observe and act: guides/observe-and-act.md
+      - Consume the outbox: guides/outbox.md
+  - Reference:
+      - Configuration: reference/configuration.md
+      - Compatibility and versions: reference/compatibility.md
+      - Conformance: reference/conformance.md
+      - Publication gates: reference/publication-gates.md
+      - Cross-language semantic vectors: reference/semantic-vectors.md
+      - Error catalog: reference/error-catalog.md
+      - Security and limitations: reference/security.md
+      - Threat model: reference/threat-model.md
+      - Release evidence: reference/release-evidence.md
+      - Engineering proof: reference/engineering-evidence.md
+      - Troubleshooting: reference/troubleshooting.md
+      - Glossary: reference/glossary.md
+      - Frequently asked questions: reference/faq.md
+      - Contributing: reference/contributing.md
+  - Project & maintainer: project-and-maintainer.md
+  - Maintainers:
+      - Documentation workflow: maintainers/docs-workflow.md
+      - Poetry environment and packaging: maintainers/poetry-workflow.md
+      - Custom domain on GitHub Pages: maintainers/github-pages.md
+      - SQLite backup and recovery: maintainers/storage-backup.md

@@ -1,0 +1,26 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "enum": [
+        "accepted",
+        "duplicate"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "satisfied_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Satisfied Contracts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status",
+    "satisfied_contracts"
+  ],
+  "title": "EventReceipt",
+  "type": "object"
+}

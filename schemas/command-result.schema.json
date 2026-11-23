@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "enum": [
+        "succeeded",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "output": {
+      "additionalProperties": true,
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "CommandResult",
+  "type": "object"
+}

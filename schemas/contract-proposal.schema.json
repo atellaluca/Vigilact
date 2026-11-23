@@ -1,0 +1,56 @@
+{
+  "$defs": {
+    "ExpectedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "expected_event",
+          "default": "expected_event",
+          "title": "Kind",
+          "type": "string"
+        },
+        "event_type": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Event Type",
+          "type": "string"
+        },
+        "deadline_at": {
+          "format": "date-time",
+          "title": "Deadline At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_type",
+        "deadline_at"
+      ],
+      "title": "ExpectedEvent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "client_ref": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$",
+      "title": "Client Ref",
+      "type": "string"
+    },
+    "subject": {
+      "maxLength": 255,
+      "minLength": 1,
+      "title": "Subject",
+      "type": "string"
+    },
+    "observation": {
+      "$ref": "#/$defs/ExpectedEvent"
+    }
+  },
+  "required": [
+    "client_ref",
+    "subject",
+    "observation"
+  ],
+  "title": "ContractProposal",
+  "type": "object"
+}

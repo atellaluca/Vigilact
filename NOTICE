@@ -1,0 +1,8 @@
+Vigilact — experimental operational contract protocol and reference implementation
+Copyright 2026 Luca Atella
+
+This distribution includes components authored for the Vigilact project and
+is licensed under the Apache License, Version 2.0. See LICENSE.
+
+The protocol is independent of LTG Notify, CloudEvents, FastAPI and any
+standards-development organization; no endorsement is asserted.

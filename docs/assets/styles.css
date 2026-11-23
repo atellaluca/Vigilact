@@ -1,0 +1,44 @@
+/* Minimal, accessible additions to the built-in MkDocs theme. */
+:root { --vigilact-ink: #16283d; --vigilact-accent: #147d87; --vigilact-muted: #536579; }
+body { color: var(--vigilact-ink); }
+.navbar { background: #142c42; border: 0; }
+.navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a { color: #f2f8fc; }
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav > li > a:hover { color: #b2e2e7; }
+a { color: #126d78; }
+a:hover { color: #0b4e57; }
+h1, h2, h3 { letter-spacing: -.018em; }
+h1 { font-weight: 700; }
+h2 { margin-top: 1.8em; }
+pre { background: #f6f9fb; border: 1px solid #dce5eb; border-radius: 7px; padding: 1.1em; }
+code { color: #16334b; }
+table { width: 100%; }
+th { background: #edf4f6; }
+th, td { border-color: #dbe6e9 !important; }
+blockquote { border-left: 4px solid var(--vigilact-accent); color: var(--vigilact-muted); background: #f4f8f9; padding: 12px 16px; }
+.vigilact-hero { background: linear-gradient(125deg,#142c42 0%,#205c66 100%); color: #fff; padding: 27px 28px; border-radius: 12px; margin: 12px 0 24px; }
+.vigilact-hero h1 { color:#fff; margin:0 0 10px; font-size:2.35em; }
+.vigilact-hero p { color:#e2eff1; font-size:1.12em; margin-bottom: 13px; }
+.vigilact-hero a { display:inline-block; color:#142c42; background:#e3f3f3; text-decoration:none; padding:9px 15px; margin-right:8px; margin-top:4px; border-radius:6px; font-weight:600; }
+.vigilact-hero a:hover { background:#fff; }
+.vigilact-note { border-left:4px solid #c58c2f; background:#fff8e8; padding:12px 15px; margin:17px 0; }
+.vigilact-good { border-left:4px solid #138769; background:#f0fbf7; padding:12px 15px; margin:17px 0; }
+@media (max-width: 680px) { .vigilact-hero { padding:20px; } .vigilact-hero h1 {font-size:1.9em;} }
+/* Documentation improvements: clarity, keyboard access and responsive reading. */
+.vigilact-eyebrow { display:block; font-size:.75rem; font-weight:700; letter-spacing:.14em; color:#c3e4e8; margin-bottom:10px; }
+.vigilact-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:22px 0 28px; }
+.vigilact-card { border:1px solid #d7e3e8; border-radius:10px; padding:18px; background:#f7fafb; }
+.vigilact-card h3 { margin:0 0 10px; font-size:1.2em; }
+.vigilact-card p { color:#43586d; min-height:4.5em; }
+.vigilact-card a { font-weight:700; }
+a:focus-visible { outline:3px solid #c57d27; outline-offset:3px; border-radius:3px; }
+pre { overflow-x:auto; }
+table { display:block; overflow-x:auto; }
+img[alt*="Vigilact architecture"], img[src$="architecture.svg"] { max-width:100%; height:auto; }
+@media (max-width:760px) { .vigilact-cards {grid-template-columns:1fr;} .vigilact-card p {min-height:0;} }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto!important; transition:none!important; } }
+
+/* Independent Vigilact identity: readable hero branding, compact at mobile sizes. */
+.vigilact-hero-heading { display:flex; align-items:center; gap:18px; margin-bottom:8px; }
+.vigilact-hero-logo { display:block; width:76px; height:76px; padding:6px; background:#eef9f9; border-radius:16px; object-fit:contain; flex-shrink:0; }
+.vigilact-hero-heading h1 { margin:0; }
+@media (max-width:480px) { .vigilact-hero-heading { gap:12px; } .vigilact-hero-logo { width:56px; height:56px; padding:5px; border-radius:12px; } }

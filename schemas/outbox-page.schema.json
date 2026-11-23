@@ -1,0 +1,110 @@
+{
+  "$defs": {
+    "CloudEvent": {
+      "additionalProperties": false,
+      "description": "Supported CloudEvents JSON subset; other extensions are not implemented.",
+      "properties": {
+        "specversion": {
+          "const": "1.0",
+          "title": "Specversion",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 255,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "type": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "maxLength": 255,
+          "minLength": 1,
+          "title": "Subject",
+          "type": "string"
+        },
+        "time": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time"
+        },
+        "datacontenttype": {
+          "const": "application/json",
+          "default": "application/json",
+          "title": "Datacontenttype",
+          "type": "string"
+        },
+        "data": {
+          "additionalProperties": true,
+          "title": "Data",
+          "type": "object"
+        }
+      },
+      "required": [
+        "specversion",
+        "id",
+        "source",
+        "type",
+        "subject"
+      ],
+      "title": "CloudEvent",
+      "type": "object"
+    },
+    "OutboxEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "event": {
+          "$ref": "#/$defs/CloudEvent"
+        }
+      },
+      "required": [
+        "seq",
+        "event"
+      ],
+      "title": "OutboxEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/OutboxEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "next_cursor": {
+      "title": "Next Cursor",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "entries",
+    "next_cursor"
+  ],
+  "title": "OutboxPage",
+  "type": "object"
+}

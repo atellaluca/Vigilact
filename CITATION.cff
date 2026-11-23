@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use the Vigilact reference implementation or discuss the experimental protocol, please cite this repository."
+title: "Vigilact: Negotiated Operational Contracts (experimental protocol)"
+type: software
+version: 0.4.0a3
+authors:
+  - family-names: Atella
+    given-names: Luca
+repository-code: "https://github.com/atellaluca/vigilact"
+license: Apache-2.0
+keywords:
+  - operational-contracts
+  - protocol-design
+  - observability
+  - distributed-systems

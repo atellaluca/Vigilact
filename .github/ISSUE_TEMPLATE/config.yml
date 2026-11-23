@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/atellaluca/vigilact/security/advisories/new
+    about: Report vulnerabilities privately, never in public issues.
+  - name: Usage support
+    url: https://github.com/atellaluca/vigilact/discussions
+    about: Ask for help and propose use cases in GitHub Discussions (after it has been enabled).

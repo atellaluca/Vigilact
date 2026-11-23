@@ -1,0 +1,39 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "target_agent": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+      "title": "Target Agent",
+      "type": "string"
+    },
+    "capability": {
+      "pattern": "^[a-z][a-z0-9_.-]{0,95}$",
+      "title": "Capability",
+      "type": "string"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "title": "Arguments",
+      "type": "object"
+    },
+    "ttl_seconds": {
+      "default": 300,
+      "maximum": 86400,
+      "minimum": 1,
+      "title": "Ttl Seconds",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "request_id",
+    "target_agent",
+    "capability"
+  ],
+  "title": "CommandRequest",
+  "type": "object"
+}

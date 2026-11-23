@@ -1,0 +1,336 @@
+{
+  "schema": "vigilact.expected-event.vectors/0.1",
+  "base_time": "2031-04-05T12:00:00Z",
+  "subject": "backup://node-a",
+  "event_type": "backup.completed",
+  "contract_owner": "node-a",
+  "cases": [
+    {
+      "id": "on-time",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 15,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    },
+    {
+      "id": "exact-boundary",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 60,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    },
+    {
+      "id": "late-receipt",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 61,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 62,
+      "expected": {
+        "outcome": "NOT_OBSERVED",
+        "receipts": [
+          "accepted:0"
+        ],
+        "emissions": [
+          "not_observed"
+        ]
+      }
+    },
+    {
+      "id": "no-evidence",
+      "deadline_offset_seconds": 60,
+      "events": [],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "NOT_OBSERVED",
+        "receipts": [],
+        "emissions": [
+          "not_observed"
+        ]
+      }
+    },
+    {
+      "id": "still-pending",
+      "deadline_offset_seconds": 60,
+      "events": [],
+      "evaluate_at_seconds": 59,
+      "expected": {
+        "outcome": "PENDING",
+        "receipts": [],
+        "emissions": []
+      }
+    },
+    {
+      "id": "wrong-subject",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 15,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://other",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 59,
+      "expected": {
+        "outcome": "PENDING",
+        "receipts": [
+          "accepted:0"
+        ],
+        "emissions": []
+      }
+    },
+    {
+      "id": "wrong-type",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 15,
+          "id": "run-1",
+          "type": "backup.failed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 59,
+      "expected": {
+        "outcome": "PENDING",
+        "receipts": [
+          "accepted:0"
+        ],
+        "emissions": []
+      }
+    },
+    {
+      "id": "different-agent",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 15,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-b"
+        }
+      ],
+      "evaluate_at_seconds": 59,
+      "expected": {
+        "outcome": "PENDING",
+        "receipts": [
+          "accepted:0"
+        ],
+        "emissions": []
+      }
+    },
+    {
+      "id": "duplicate-evidence",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 10,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        },
+        {
+          "offset_seconds": 11,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1",
+          "duplicate:0"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    },
+    {
+      "id": "conflicting-event-id",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 10,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a",
+          "data": {
+            "result": "ok"
+          }
+        },
+        {
+          "offset_seconds": 11,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a",
+          "data": {
+            "result": "bad"
+          }
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1",
+          "event_conflict"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    },
+    {
+      "id": "claimed-future-timestamp",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 12,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a",
+          "time_offset_seconds": 500
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    },
+    {
+      "id": "claimed-past-timestamp",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 61,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a",
+          "time_offset_seconds": 10
+        }
+      ],
+      "evaluate_at_seconds": 62,
+      "expected": {
+        "outcome": "NOT_OBSERVED",
+        "receipts": [
+          "accepted:0"
+        ],
+        "emissions": [
+          "not_observed"
+        ]
+      }
+    },
+    {
+      "id": "forged-source",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 12,
+          "id": "run-1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a",
+          "source": "urn:vigilact:agent:node-b"
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "NOT_OBSERVED",
+        "receipts": [
+          "source_mismatch"
+        ],
+        "emissions": [
+          "not_observed"
+        ]
+      }
+    },
+    {
+      "id": "two-different-events",
+      "deadline_offset_seconds": 60,
+      "events": [
+        {
+          "offset_seconds": 10,
+          "id": "e1",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        },
+        {
+          "offset_seconds": 20,
+          "id": "e2",
+          "type": "backup.completed",
+          "subject": "backup://node-a",
+          "agent": "node-a"
+        }
+      ],
+      "evaluate_at_seconds": 61,
+      "expected": {
+        "outcome": "SATISFIED",
+        "receipts": [
+          "accepted:1",
+          "accepted:0"
+        ],
+        "emissions": [
+          "satisfied"
+        ]
+      }
+    }
+  ]
+}

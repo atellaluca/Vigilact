@@ -1,0 +1,6 @@
+# Initial single-maintainer ownership; GitHub review enforcement must be enabled manually.
+* @atellaluca
+/.github/ @atellaluca
+/src/vigilact/server.py @atellaluca
+/src/vigilact/service.py @atellaluca
+/spec/ @atellaluca

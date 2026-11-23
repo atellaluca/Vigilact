@@ -1,0 +1,55 @@
+{
+  "$defs": {
+    "Capability": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[a-z][a-z0-9_.-]{0,95}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "query",
+            "command"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 500,
+          "title": "Description",
+          "type": "string"
+        },
+        "invocable": {
+          "default": false,
+          "title": "Invocable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "mode"
+      ],
+      "title": "Capability",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "capabilities": {
+      "items": {
+        "$ref": "#/$defs/Capability"
+      },
+      "maxItems": 100,
+      "title": "Capabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "capabilities"
+  ],
+  "title": "CapabilityManifest",
+  "type": "object"
+}
