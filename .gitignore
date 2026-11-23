@@ -27,3 +27,4 @@ coverage.xml
 /artifacts/
 
 # poetry.lock is deliberately tracked once produced by Poetry; do not ignore it.
+SOURCE_SHA256_MANIFEST.txt
