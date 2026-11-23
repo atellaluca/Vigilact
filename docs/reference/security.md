@@ -1,6 +1,8 @@
 # Security and limitations
 
-<div class="vigilact-note"><strong>Research implementation only.</strong> No release is production-supported. Do not expose the observer to the public Internet or use it for controlling important systems without substantial independent security engineering.</div>
+!!! warning "Not for untrusted production environments"
+    **Research implementation only.** No release is production-supported. Do not expose the observer to the public Internet or use it for controlling important systems without substantial independent security engineering.
+
 
 ## Current protections
 

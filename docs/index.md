@@ -1,67 +1,62 @@
-<div class="vigilact-hero">
-  <span class="vigilact-eyebrow">OPEN PROTOCOL RESEARCH · v0.4.0a2</span>
-  <div class="vigilact-hero-heading"><img class="vigilact-hero-logo" src="assets/vigilact-logo.svg" alt="Vigilact project icon" width="82" height="82"><h1>Vigilact</h1></div>
-  <p>Declare commitments. Observe evidence. Act with permission.</p>
-  <a href="getting-started/five-minute-demo/">Run the HTTP demo</a>
-  <a href="concepts/mental-model/">Understand the model</a>
-</div>
+# Vigilact
 
-**Vigilact** is a vendor-neutral experiment in negotiated operational contracts. An agent declares the evidence expected before a deadline; an observer persists the agreement, evaluates evidence and publishes a neutral outcome that other software can consume.
+**An open protocol experiment for negotiated operational contracts and observable commitments.**
 
-<div class="vigilact-note"><strong>Alpha status.</strong> Reference implementation <code>0.4.0a2</code> advertises protocol profile <code>vigilact/0.1-experimental</code>. This is neither a ratified standard nor a production-hardened observer. APIs and semantics may change.</div>
+Vigilact lets an agent propose what evidence should arrive before a deadline. An observer accepts supported terms, persists the agreement and publishes a neutral outcome that other software can consume.
 
-## Choose your path
+```text
+Agent                     Observer                     Downstream systems
+  |                          |                                |
+  |-- propose contract ----->|                                |
+  |<------ accepted ---------|                                |
+  |-- publish evidence ----->|                                |
+  |                    evaluate obligation                    |
+  |                          |-- outcome event -------------->|
+```
 
-<div class="vigilact-cards">
-  <div class="vigilact-card"><h3>Try Vigilact</h3><p>Run a real HTTP contract and evidence flow with dynamic deadlines.</p><a href="getting-started/five-minute-demo/">Five-minute demo →</a></div>
-  <div class="vigilact-card"><h3>Build an integration</h3><p>Use Python or JavaScript and consume neutral outcome events.</p><a href="guides/backup-integration/">Integration guide →</a></div>
-  <div class="vigilact-card"><h3>Review the protocol</h3><p>Understand state transitions, failure cases, identity and conformance.</p><a href="concepts/evaluation-semantics/">Evaluation model →</a></div>
-</div>
+!!! warning "Experimental alpha — 0.4.0a3"
+    Vigilact advertises the `vigilact/0.1-experimental` protocol profile. It is neither a ratified standard nor a production-hardened observer. APIs and semantics may change; do not expose the reference server to untrusted networks.
 
-## The operating model
+## Get started
 
-![An agent proposes a contract and publishes evidence to the observer, which records evaluations for independent downstream consumers.](assets/architecture.svg)
+- [Install and run](getting-started/install.md), then follow the [five-minute HTTP demo](getting-started/five-minute-demo.md).
+- [Build an integration](guides/backup-integration.md) with the [Python SDK](guides/python.md) or [JavaScript client](guides/javascript.md).
+- [Review the protocol](concepts/evaluation-semantics.md), including [failure semantics](concepts/failure-semantics.md) and [conformance](reference/conformance.md).
 
-1. **Propose:** an authenticated agent submits an `expected_event` commitment.
-2. **Accept:** the observer validates and persists the exact terms or rejects them.
-3. **Publish:** the agent submits a restricted CloudEvents-style evidence message.
-4. **Evaluate:** the observer resolves the commitment as `SATISFIED` or `NOT_OBSERVED`.
-5. **Integrate:** downstream consumers decide whether to notify, audit or automate.
+## What Vigilact observes
+
+| Phase | Responsibility |
+| --- | --- |
+| Contract | An authenticated agent proposes an `expected_event` commitment and deadline. |
+| Acceptance | The observer validates and persists supported terms or rejects them. |
+| Evidence | The agent publishes a restricted CloudEvents-style event. |
+| Evaluation | The observer records `SATISFIED` or `NOT_OBSERVED` according to receipt time. |
+| Integration | A downstream consumer decides whether to notify, audit, or automate. |
+
+An observation marked `NOT_OBSERVED` means **no matching evidence was received by its deadline**. It does *not* prove the operation itself failed. See [Failure semantics](concepts/failure-semantics.md).
+
+## Architecture
+
+![An agent proposes a contract and publishes evidence; an observer records evaluations for independent downstream consumers.](assets/architecture.svg)
 
 ## Implemented versus planned
 
 | Included now | Not yet implemented |
 | --- | --- |
-| One-shot `expected_event` contracts | Cron/recurring observations |
+| One-shot `expected_event` contracts | Cron and recurring observations |
 | Receipt-time deadlines and SQLite state | High availability and federation |
 | Event idempotency and durable outbox | Full CloudEvents compatibility |
 | Agent capability manifests | Capability schemas and negotiation |
-| Commands with TTL and explicit uncertain outcomes (disabled by default) | Exactly-once execution and distributed execution guarantees |
+| Commands with TTL and uncertain outcomes (disabled by default) | Exactly-once remote execution guarantees |
 
-An observation marked `NOT_OBSERVED` means **no matching evidence was received by its deadline**; it does *not* prove the operation failed. See [Failure semantics](concepts/failure-semantics.md).
+## Read next
 
-## Learn more
+- [Core protocol profile](concepts/core-profile.md) · [HTTP API](protocol/http-api.md) · [Error catalog](reference/error-catalog.md)
+- [Security and limitations](reference/security.md) · [Compatibility](reference/compatibility.md) · [Engineering evidence](reference/engineering-evidence.md)
+- [Project and maintainer](project-and-maintainer.md) · [Contributing](reference/contributing.md)
 
-Start with [installation](getting-started/install.md), then read the [HTTP API](protocol/http-api.md), [error catalog](reference/error-catalog.md), [security notes](reference/security.md), and [compatibility policy](reference/compatibility.md).
-
-**Vigilact is not a notification product.** It emits independent evaluation events; it does not send email, SMS, or push notifications. LTG Notify is a separate optional integration, not a dependency.
-
-[Project repository](https://github.com/atellaluca/vigilact) · [Documentation](https://vigilact.atellaluca.com/) · [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0) · [Contributing](reference/contributing.md)
-
-
-## Verify the engineering claims
-
-See [reproducible engineering evidence](reference/engineering-evidence.md) for cross-language seeded differential testing, transaction failure injection and explicit limits.
-
+Vigilact **is not a notification product**. It emits independent evaluation events and has no required dependency on LTG Notify or any other delivery service.
 
 ## Maintained by
 
-Vigilact is an independent open-source project maintained by **Luca Atella**.
-For professional background, questions and collaboration:
-
-- [Technical profile](https://profile.atellaluca.com/)
-- [GitHub — @atellaluca](https://github.com/atellaluca)
-- [LinkedIn — Luca Atella](https://www.linkedin.com/in/luca-atella/)
-- [Email — info@atellaluca.com](mailto:info@atellaluca.com)
-
-See [Project & maintainer](project-and-maintainer.md) for authorship, project scope and contact guidance.
+Vigilact is an independent Apache-2.0 project maintained by **Luca Atella**. Find technical background and contact details at [profile.atellaluca.com](https://profile.atellaluca.com/), [GitHub](https://github.com/atellaluca), [LinkedIn](https://www.linkedin.com/in/luca-atella/) or [info@atellaluca.com](mailto:info@atellaluca.com).

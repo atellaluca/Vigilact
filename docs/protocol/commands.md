@@ -1,6 +1,8 @@
 # Remote command exchange
 
-<div class="vigilact-note"><strong>Off by default.</strong> Remote command endpoints must be explicitly enabled by the observer and must not be exposed to untrusted operators or public networks in this alpha.</div>
+!!! warning "Remote commands are disabled by default"
+    **Off by default.** Remote command endpoints must be explicitly enabled by the observer and must not be exposed to untrusted operators or public networks in this alpha.
+
 
 Commands are **requests delivered to an agent**; the server never runs arbitrary shell commands. The agent decides whether and how to execute a locally allow-listed handler.
 

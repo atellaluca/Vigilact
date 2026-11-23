@@ -45,8 +45,20 @@ For GitHub Pages custom-domain deployment see [Publishing on vigilact.atellaluca
 
 ## Branding and maintainer references
 
-The README opens with `docs/assets/vigilact-readme-banner.png` and closes with `docs/assets/vigilact-logo.svg`. The documentation uses the independent **Vigilact** symbol at `docs/assets/vigilact-logo.svg`, a PNG artwork variant, and multi-resolution favicons (`favicon.ico`, `favicon.png`). Keep the SVG as the editable source for future favicon variants. The built-in MkDocs theme reads the actual deployed favicon from `docs/img/favicon.ico`; maintain it in sync with `docs/assets/favicon.ico`. Brand assets are distributed with the repository under Apache-2.0.
+The README opens with `docs/assets/vigilact-readme-banner.png` and closes with `docs/assets/vigilact-logo.svg`. The documentation uses the independent **Vigilact** symbol at `docs/assets/vigilact-logo.svg`, a PNG artwork variant, and multi-resolution favicons (`favicon.ico`, `favicon.png`). Keep the SVG as the editable source for future favicon variants. Material for MkDocs loads the deployed favicon directly from `docs/assets/favicon.ico`, configured under `theme.favicon` in `mkdocs.yml`. Brand assets are distributed with the repository under Apache-2.0.
 
 The public docs must retain the founding maintainer references: [professional profile](https://profile.atellaluca.com/), [personal GitHub](https://github.com/atellaluca), [LinkedIn](https://www.linkedin.com/in/luca-atella/), and [contact email](mailto:info@atellaluca.com). Keep the [Project & maintainer](../project-and-maintainer.md) page and homepage links accurate.
 
 Run `python scripts/check_branding.py` before merging docs changes. The check is also part of GitHub Actions.
+
+## Shared design language with ImportSpy
+
+Vigilact uses **Material for MkDocs** with the same header tabs, search, and instant navigation as [ImportSpy](https://importspy.atellaluca.com/), but with its own **navy (`#132E49`) and teal (`#08B6A4`)** branding. Interactive teal text is darkened to `#007A74` for contrast on light backgrounds. Vigilact retains its own logo, favicon, canonical domain and independent content.
+
+Theme changes belong in `mkdocs.yml`; keep `docs/assets/styles.css` small and
+limited to project-specific details rather than rebuilding Material's navigation.
+
+After updating Python dependencies, run `poetry lock`, commit `poetry.lock`,
+then `poetry sync --with docs` and `poetry run mkdocs build --strict`.
+
+The docs build in GitHub Actions remains the publication gate.

@@ -2,7 +2,9 @@
 
 This walkthrough runs against the **reference HTTP observer**, not against an imaginary service. It creates one synthetic contract, submits matching evidence, verifies its outcome, and reads the neutral evaluation outbox.
 
-<div class="vigilact-note"><strong>Local sandbox only.</strong> The reference server is experimental. The commands below use demonstration credentials. Do not expose the instance outside <code>127.0.0.1</code>.</div>
+!!! warning "Local demonstration only"
+    **Local sandbox only.** The reference server is experimental. The commands below use demonstration credentials. Do not expose the instance outside `127.0.0.1`.
+
 
 ## 1. Prepare the environment
 

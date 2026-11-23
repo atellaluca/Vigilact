@@ -8,16 +8,16 @@ Install Poetry in an isolated environment (for example with `pipx install poetry
 
 ```bash
 poetry config virtualenvs.in-project true --local
-poetry lock             # first time only; requires access to PyPI
 poetry sync --all-groups --all-extras
 poetry run python examples/quickstart.py
 poetry run pytest -q
 poetry build
 ```
 
-**Lockfile status:** this migration was made in an offline environment without Poetry or PyPI access. The included `pyproject.toml` is authoritative, but a genuine `poetry.lock` could **not** be generated or verified here. Commit an actual `poetry.lock` from `poetry lock` **before** calling the project fully reproducible or cutting a PyPI release. Do not commit an invented or manually edited lockfile.
-
-A GitHub Actions workflow named **Generate Poetry lock** can create a fresh lockfile as a downloadable artifact. Add it to the repository and re-run CI. Once committed, `poetry check --lock` validates metadata/lock consistency, and `poetry sync` will use locked versions.
+Commit the genuine `poetry.lock` and keep it synchronized with `pyproject.toml`.
+Whenever dependencies change (including the docs-only `mkdocs-material` dependency),
+run `poetry lock`, review the resulting diff, and commit both files. The CI gate
+`poetry check --lock` verifies this consistency before builds and releases.
 
 The Python package installation uses Poetry only as a *build tool*. External consumers can still install a published wheel using normal `pip install vigilact-protocol` without Poetry.
 
@@ -26,7 +26,7 @@ The Python package installation uses Poetry only as a *build tool*. External con
 - Default: Python server runtime (FastAPI, Pydantic, Uvicorn).
 - `client` extra: optional HTTPX SDK dependency.
 - `dev` group: pytest, coverage, Ruff, JSON Schema, build checks.
-- `docs` group (optional): MkDocs.
+- `docs` group (optional): MkDocs and Material for MkDocs (matching ImportSpy).
 - `poetry sync --all-groups --all-extras`: complete contributor environment.
 - `poetry sync --only main --extras client`: runtime with optional client dependency.
 

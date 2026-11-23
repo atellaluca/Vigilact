@@ -78,4 +78,4 @@ Sources: [GitHub: custom domains](https://docs.github.com/en/pages/configuring-a
 
 ## Project identity and site icon
 
-The docs homepage includes the independent Vigilact project symbol. The built-in MkDocs theme serves the icon from `docs/img/favicon.ico`. Source artwork and scalable assets are maintained in `docs/assets/`. The [Project & maintainer](../project-and-maintainer.md) page and homepage provide the maintainer's professional profile, GitHub, LinkedIn and contact address. `python scripts/check_branding.py` guards these references in CI.
+The docs homepage includes the independent Vigilact project symbol. Material for MkDocs serves the icon from `docs/assets/favicon.ico`, as declared in `mkdocs.yml`. Source artwork and scalable assets are maintained in `docs/assets/`. The [Project & maintainer](../project-and-maintainer.md) page and homepage provide the maintainer's professional profile, GitHub, LinkedIn and contact address. `python scripts/check_branding.py` guards these references in CI.

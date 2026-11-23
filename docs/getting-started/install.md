@@ -14,7 +14,7 @@ This guide uses the **reference implementation** in the repository. It is intend
 # Once the repository is published:
 git clone https://github.com/atellaluca/vigilact.git
 cd vigilact
-# Until the first poetry.lock is committed, run `poetry lock` once.
+# On an existing repository use the committed poetry.lock.
 poetry sync --all-groups --all-extras
 ```
 
@@ -51,7 +51,9 @@ curl -fsS http://127.0.0.1:8000/v1/info
 
 The interactive FastAPI API explorer is available at `http://127.0.0.1:8000/docs`; the machine-readable specification is at `/openapi.json`. **Both are part of the running server**, not this static documentation site.
 
-<div class="vigilact-note">The HTTP server is an alpha research implementation. Keep it bound to loopback; do not expose it to an untrusted network or use the example credentials for real data.</div>
+!!! warning "Experimental server"
+    The HTTP server is an alpha research implementation. Keep it bound to loopback; do not expose it to an untrusted network or use the example credentials for real data.
+
 
 ## Next step
 

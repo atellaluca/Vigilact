@@ -25,9 +25,17 @@ REQUIRED_CONTACTS = (
 def verify() -> None:
     config = yaml.safe_load((ROOT / 'mkdocs.yml').read_text(encoding='utf-8'))
     assert config['site_url'] == 'https://vigilact.atellaluca.com/'
-    assert config['theme']['name'] == 'mkdocs'
-    assert (DOCS / 'img/favicon.ico').is_file(), 'MkDocs built-in theme expects docs/img/favicon.ico'
-    assert (DOCS / 'img/favicon.ico').read_bytes() == (DOCS / 'assets/favicon.ico').read_bytes(), 'favicon copies differ'
+    assert config['theme']['name'] == 'material'
+    assert config['theme']['logo'] == 'assets/vigilact-logo.svg'
+    assert config['theme']['favicon'] == 'assets/favicon.ico'
+    assert (DOCS / config['theme']['favicon']).is_file()
+    assert (DOCS / config['theme']['logo']).is_file()
+    palette = config['theme']['palette'][0]
+    assert (palette['primary'], palette['accent']) == ('custom', 'custom')
+    css = (DOCS / 'assets/styles.css').read_text(encoding='utf-8').lower()
+    assert '--md-primary-fg-color: #132e49' in css
+    assert '--md-accent-fg-color: #007a74' in css
+    assert {'navigation.tabs', 'navigation.instant'} <= set(config['theme']['features'])
     assert (DOCS / 'project-and-maintainer.md').is_file()
     nav = repr(config['nav'])
     assert 'project-and-maintainer.md' in nav
